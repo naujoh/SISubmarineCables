@@ -1,5 +1,7 @@
 package ia.volleyball;
 
+import com.sun.xml.internal.fastinfoset.algorithm.IEEE754FloatingPointEncodingAlgorithm;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -55,18 +57,40 @@ public class FilesManager {
         this.master_f.writeChars(this.str_b.toString());
 
         for(int i = 0; i < reg.getCONNECTIONS_NUMBER(); i++){
-            master_f.writeInt(this.reg.available[i]); //AVAILABLE
+            //master_f.writeInt(this.reg.available[i]); //AVAILABLE
             str_b = new StringBuffer(this.reg.connected_key[i]);
             this.str_b.setLength(7);
             this.master_f.writeChars(this.str_b.toString()); //KEY_CONNECTED_CITY
-            str_b = new StringBuffer(this.reg.connected_city[i]);
-            this.str_b.setLength(50);
-            this.master_f.writeChars(this.str_b.toString()); //CONNECTED_CITY
+            //str_b = new StringBuffer(this.reg.connected_city[i]);
+            //this.str_b.setLength(50);
+            //this.master_f.writeChars(this.str_b.toString()); //CONNECTED_CITY
             master_f.writeDouble(this.reg.weight[i]); //WEIGHT
             this.str_b = new StringBuffer(this.reg.wire_name[i]);
             this.str_b.setLength(60);
             this.master_f.writeChars(this.str_b.toString()); //WIRE_NAME
         }
+        master_f.close();
+        index_f.close();
+    }
+
+    public void writeData(Register r) throws IOException{
+        int logic_address = 1;
+        this.master_f = new RandomAccessFile(this.masterf_path, "rw");
+        this.index_f = new RandomAccessFile(this.indexf_path, "rw");
+
+        //if(!overwrite) {
+        if (this.master_f.length() != 0) {
+            setRegisterSize(this.master_f);
+            this.master_f.seek(this.master_f.length());
+            this.index_f.seek(this.index_f.length());
+            logic_address = ((int) (this.master_f.length() / this._regsize)) + 1;
+        }
+        //}
+        this.str_b = new StringBuffer(r.getKey());
+        this.str_b.setLength(7);
+        this.index_f.writeChars(this.str_b.toString());     //KEY
+        this.index_f.writeInt(logic_address);               //LOGIC ADDRESS
+        writeDataFromRegisterObject(r);
         master_f.close();
         index_f.close();
     }
@@ -83,15 +107,14 @@ public class FilesManager {
         ArrayList<Register> data_reg = new ArrayList<>();
         this.master_f = new RandomAccessFile(masterf_path, "r");
         while(master_f.getFilePointer() != master_f.length()){
-            setDataRegObject();
-            data_reg.add(this.reg);
+            data_reg.add( setDataRegObject(this.reg));
             this.reg = new Register();
         }
         return data_reg;
     }
 
-    //TODO Create a way to convert index file to tree
-    public Register getRegisterFromFile(String key) throws IOException{
+    public Register getRegisterFromFile(String key, boolean local_reg) throws IOException{
+        Register r;
         String aux_key = "";
         long overflow;
         int logic_address;
@@ -104,14 +127,40 @@ public class FilesManager {
                 setRegisterSize(master_f);
                 overflow = (logic_address - 1) * this._regsize;
                 master_f.seek(overflow);
-                this.reg = new Register();
-                setDataRegObject();
+                if(!local_reg) {
+                    r = new Register();
+                    return setDataRegObject(r);
+                }else{
+                    this.reg = new Register();
+                    setDataRegObject(this.reg);
+                }
                 break;
             }
             aux_key = "";
             index_f.readInt();
         }
         return this.reg;
+    }
+
+    public void addConnection(Register r, String key) throws IOException{
+        String aux_key = "";
+        long overflow;
+        int logic_address;
+        this.index_f = new RandomAccessFile(indexf_path, "r");
+        this.master_f= new RandomAccessFile(masterf_path, "rw");
+        while(this.index_f.getFilePointer() != this.index_f.length()){
+            for(int i = 0; i < 7; i++) { aux_key += index_f.readChar(); }
+            if(aux_key.trim().equals(key)){
+                logic_address = this.index_f.readInt();
+                setRegisterSize(master_f);
+                overflow = (logic_address - 1) * this._regsize;
+                this.master_f.seek(overflow);
+                writeDataFromRegisterObject(r);
+                break;
+            }
+            aux_key = "";
+            index_f.readInt();
+        }
     }
 
     public void fileSeqToSeqIndex(boolean overwrite) throws IOException {
@@ -129,15 +178,15 @@ public class FilesManager {
 
                 for (int i = 0; i < this.reg.getCONNECTIONS_NUMBER(); i++) {
                     if (tokens.hasMoreTokens()) {
-                        this.reg.available[i] = Integer.parseInt(tokens.nextToken());
+                        //this.reg.available[i] = Integer.parseInt(tokens.nextToken());
                         this.reg.connected_key[i] = tokens.nextToken();
-                        this.reg.connected_city[i] = tokens.nextToken();
+                        //this.reg.connected_city[i] = tokens.nextToken();
                         this.reg.weight[i] = Double.parseDouble(tokens.nextToken());
                         this.reg.wire_name[i] = tokens.nextToken();
                     } else {
-                        this.reg.available[i] = 0;
+                        //this.reg.available[i] = 0;
                         this.reg.connected_key[i] = "NULL";
-                        this.reg.connected_city[i] = "NULL";
+                        //this.reg.connected_city[i] = "NULL";
                         this.reg.weight[i] = -1;
                         this.reg.wire_name[i] = "NULL";
                     }
@@ -153,33 +202,86 @@ public class FilesManager {
         for (i = 0; i < 50; i++) { file.readChar(); } //CITY
         for (i = 0; i < 50; i++) { file.readChar(); } //COUNTRY
         for(int j = 0; j < this.reg.getCONNECTIONS_NUMBER(); j++){
-            file.readInt(); //CONNECTED
+            //file.readInt(); //CONNECTED
             for (i = 0; i < 7; i++) { file.readChar(); } //CONNECTED_CITY_KEY
-            for (i = 0; i < 50; i++) { file.readChar(); } //CONNECTED_CITY
+            //for (i = 0; i < 50; i++) { file.readChar(); } //CONNECTED_CITY
             file.readDouble();  //WEIGHT
             for (i = 0; i < 60; i++) { file.readChar(); } //CABLE_NAME
         }
         this._regsize = file.getFilePointer();
     }
 
-    private void setDataRegObject() throws IOException{
+    private Register setDataRegObject(Register r) throws IOException{
         int i;
-        this.reg.setKey("");
-        this.reg.setCity("");
-        this.reg.setCountry("");
-        for(i = 0; i < 7; i++) { this.reg.setKey(this.reg.getKey() + master_f.readChar()); }
-        for(i = 0; i < 50; i++) { this.reg.setCity(reg.getCity() + master_f.readChar()); }
-        for(i = 0; i < 50; i++) { this.reg.setCountry(this.reg.getCountry() + master_f.readChar()); }
-        for(int j = 0; j < this.reg.getCONNECTIONS_NUMBER(); j++){
-            this.reg.available[j] = master_f.readInt();
-            this.reg.connected_key[j] = "";
-            this.reg.connected_city[j] = "";
-            this.reg.wire_name[j] = "";
-            for(i = 0; i < 7; i++) { this.reg.connected_key[j] += master_f.readChar(); }
-            for(i = 0; i < 50; i++) { this.reg.connected_city[j] += master_f.readChar(); }
-            this.reg.weight[j] = master_f.readDouble();
-            for(i = 0; i < 60; i++) { this.reg.wire_name[j] += master_f.readChar(); }
+        r.setKey("");
+        r.setCity("");
+        r.setCountry("");
+        for(i = 0; i < 7; i++) { r.setKey(r.getKey() + master_f.readChar()); }
+        for(i = 0; i < 50; i++) { r.setCity(r.getCity() + master_f.readChar()); }
+        for(i = 0; i < 50; i++) { r.setCountry(r.getCountry() + master_f.readChar()); }
+        for(int j = 0; j < r.getCONNECTIONS_NUMBER(); j++){
+            //this.reg.available[j] = master_f.readInt();
+            r.connected_key[j] = "";
+            //this.reg.connected_city[j] = "";
+            r.wire_name[j] = "";
+            for(i = 0; i < 7; i++) { r.connected_key[j] += master_f.readChar(); }
+            //for(i = 0; i < 50; i++) { this.reg.connected_city[j] += master_f.readChar(); }
+            r.weight[j] = master_f.readDouble();
+            for(i = 0; i < 60; i++) { r.wire_name[j] += master_f.readChar(); }
         }
+        return r;
+    }
+
+    public boolean keyExists(String key)throws IOException{
+        this.index_f = new RandomAccessFile(indexf_path, "r");
+        String aux_key = "";
+        if(this.index_f.length() != 0){
+            while(index_f.getFilePointer() != index_f.length()){
+                for(int i = 0; i < 7; i++) { aux_key += index_f.readChar(); }
+                if(aux_key.trim().equals(key))
+                    return true;
+                aux_key = "";
+                index_f.readInt();
+            }
+        }
+        return false;
+    }
+
+    public void writeDataFromRegisterObject(Register r) throws IOException{
+        this.str_b = new StringBuffer(r.getKey());
+        this.str_b.setLength(7);
+        this.master_f.writeChars(this.str_b.toString());    //KEY
+        this.str_b = new StringBuffer(r.getCity());
+        this.str_b.setLength(50);
+        this.master_f.writeChars(this.str_b.toString());    //CITY
+        this.str_b = new StringBuffer(r.getCountry());
+        this.str_b.setLength(50);
+        this.master_f.writeChars(this.str_b.toString());             //COUNTRY
+
+        for (int i = 0; i < r.getCONNECTIONS_NUMBER(); i++) {
+            str_b = new StringBuffer(r.connected_key[i]);
+            this.str_b.setLength(7);
+            this.master_f.writeChars(this.str_b.toString()); //KEY_CONNECTED_KEY
+            //str_b = new StringBuffer(r.connected_city[i]);
+            //this.str_b.setLength(50);
+            //this.master_f.writeChars(this.str_b.toString()); //CONNECTED_CITY
+            master_f.writeDouble(r.weight[i]);               //WEIGHT
+            this.str_b = new StringBuffer(r.wire_name[i]);
+            this.str_b.setLength(60);
+            this.master_f.writeChars(this.str_b.toString()); //WIRE_NAME
+        }
+    }
+
+    public String getCityName(String key){
+        Register r = null;
+        try{
+
+            r=getRegisterFromFile(key, false);
+
+        }catch(Exception e){
+            System.out.println("Ocurrio un error al obtener la llave");
+        }
+        return r.getCity().trim();
     }
 
     public Register getReg() {

@@ -18,9 +18,9 @@ public class Tree {
     }
     
     public void addChild(Node parent, Register r){
-       if(!parent.node_childs.containsKey(r.getCity())){
+       if(!parent.node_childs.containsKey(r.getKey())){
          this.child_node = new Node(r,parent);
-         parent.node_childs.put(r.getCity(), child_node);
+         parent.node_childs.put(r.getKey(), child_node);
        }else{
            System.out.println("La ciudad ya existe en el arbol");
        }
