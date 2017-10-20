@@ -83,13 +83,17 @@ public class Main {
                     }
                     break;
                 case 5:
+                    String sort_name, sort_weight;
                     System.out.println("METODO DE BUSQUEDA PRIMERO EN PROFUNDIDAD");
                     System.out.println("Ingresa la llave del registro raiz:");
                     key = input.next();
                     System.out.println("Ingresa el nombre de la ciudad a buscar :");
                     city = input.next();
                     try {
-                        sm.DepthFirst(o_fm.getRegisterFromFile(key, false), city);
+                        sort_name = sm.DepthFirst(o_fm.getRegisterFromFile(key, true), city, true);
+                        sort_weight = sm.DepthFirst(o_fm.getRegisterFromFile(key, true), city, false);
+                        System.out.println("Considerando el peso como el nombre de la ciudad\n"+sort_name);
+                        System.out.println("Considerando el peso como la longitud de cable\n"+sort_weight);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -102,10 +106,9 @@ public class Main {
                     destiny = input.next();
                     try {
                         List<String> result = sm.grafosO(o_fm.getRegisterFromFile(origin, false), destiny);
-                        System.out.println("");
-                        System.out.println("Resultado");
-                        for (String a : result) {
-                            System.out.println(a);
+                        Object path [] = result.toArray();
+                        for(int i = path.length - 1; i >= 0; i--){
+                            System.out.println(path[i]);
                         }
 
                     } catch (Exception e) {
@@ -120,10 +123,9 @@ public class Main {
                     destiny = input.next();
                     try {
                         List<String> result = sm.grafosA(o_fm.getRegisterFromFile(key, false), destiny);
-                        System.out.println("");
-                        System.out.println("Resultado");
-                        for (String a : result) {
-                            System.out.println(a);
+                        Object path [] = result.toArray();
+                        for(int i = path.length - 1; i >= 0; i--){
+                            System.out.println(path[i]);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

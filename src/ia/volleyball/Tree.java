@@ -27,17 +27,21 @@ public class Tree {
        this.pointer = parent;
     }
 
-    public void getPathToRoot(String key){
+    public String getPathToRoot(String key){
+        String path = "";
         boolean limit = false;
         this.pointer = this.pointer.node_childs.get(key);
-        System.out.println("Solucion:");
+        //System.out.println("Solucion:");
         while (limit == false) {
             if (pointer.parent_node == null)
                 limit = true;
-            System.out.printf(pointer.data.getCity().trim() + " < ");
+            path += pointer.data.getCity().trim() + " < ";
+            //System.out.printf(pointer.data.getCity().trim() + " < ");
             pointer = pointer.parent_node;
         }
-        System.out.println();
+        path += "RAIZ";
+        //System.out.printf("RAIZ\n");
+        return path;
     }
 
     public Node getPointer() {
