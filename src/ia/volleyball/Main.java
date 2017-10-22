@@ -1,6 +1,5 @@
 package ia.volleyball;
 
-import javax.xml.bind.SchemaOutputResolver;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,15 +23,8 @@ public class Main {
             switch (menu_option) {
                 case 1:
                     try {
-                        System.out.println("Escribir en archivo:\n 1)Insertar nodo\n 2)Crear conexion entre nodos");
-                        switch (input.nextInt()) {
-                            case 1:
-                                o_fm.getReg().setRegisterData(o_fm);
-                                break;
-                            case 2:
-                                o_fm.getReg().connectionNodeToNode(o_fm);
-                                break;
-                        }
+                        System.out.println("Insertar nodo:");
+                        o_fm.getReg().setRegisterData(o_fm);
                     } catch (Exception e) {
                         System.out.printf("ERROR AL ESCRIBIR EN ARCHIVOS");
                         e.printStackTrace();

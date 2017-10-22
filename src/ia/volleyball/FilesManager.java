@@ -1,7 +1,5 @@
 package ia.volleyball;
 
-import com.sun.xml.internal.fastinfoset.algorithm.IEEE754FloatingPointEncodingAlgorithm;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -57,13 +55,9 @@ public class FilesManager {
         this.master_f.writeChars(this.str_b.toString());
 
         for(int i = 0; i < reg.getCONNECTIONS_NUMBER(); i++){
-            //master_f.writeInt(this.reg.available[i]); //AVAILABLE
             str_b = new StringBuffer(this.reg.connected_key[i]);
             this.str_b.setLength(7);
             this.master_f.writeChars(this.str_b.toString()); //KEY_CONNECTED_CITY
-            //str_b = new StringBuffer(this.reg.connected_city[i]);
-            //this.str_b.setLength(50);
-            //this.master_f.writeChars(this.str_b.toString()); //CONNECTED_CITY
             master_f.writeDouble(this.reg.weight[i]); //WEIGHT
             this.str_b = new StringBuffer(this.reg.wire_name[i]);
             this.str_b.setLength(60);
@@ -178,15 +172,11 @@ public class FilesManager {
 
                 for (int i = 0; i < this.reg.getCONNECTIONS_NUMBER(); i++) {
                     if (tokens.hasMoreTokens()) {
-                        //this.reg.available[i] = Integer.parseInt(tokens.nextToken());
                         this.reg.connected_key[i] = tokens.nextToken();
-                        //this.reg.connected_city[i] = tokens.nextToken();
                         this.reg.weight[i] = Double.parseDouble(tokens.nextToken());
                         this.reg.wire_name[i] = tokens.nextToken();
                     } else {
-                        //this.reg.available[i] = 0;
                         this.reg.connected_key[i] = "NULL";
-                        //this.reg.connected_city[i] = "NULL";
                         this.reg.weight[i] = -1;
                         this.reg.wire_name[i] = "NULL";
                     }
@@ -202,9 +192,7 @@ public class FilesManager {
         for (i = 0; i < 50; i++) { file.readChar(); } //CITY
         for (i = 0; i < 50; i++) { file.readChar(); } //COUNTRY
         for(int j = 0; j < this.reg.getCONNECTIONS_NUMBER(); j++){
-            //file.readInt(); //CONNECTED
             for (i = 0; i < 7; i++) { file.readChar(); } //CONNECTED_CITY_KEY
-            //for (i = 0; i < 50; i++) { file.readChar(); } //CONNECTED_CITY
             file.readDouble();  //WEIGHT
             for (i = 0; i < 60; i++) { file.readChar(); } //CABLE_NAME
         }
@@ -220,12 +208,9 @@ public class FilesManager {
         for(i = 0; i < 50; i++) { r.setCity(r.getCity() + master_f.readChar()); }
         for(i = 0; i < 50; i++) { r.setCountry(r.getCountry() + master_f.readChar()); }
         for(int j = 0; j < r.getCONNECTIONS_NUMBER(); j++){
-            //this.reg.available[j] = master_f.readInt();
             r.connected_key[j] = "";
-            //this.reg.connected_city[j] = "";
             r.wire_name[j] = "";
             for(i = 0; i < 7; i++) { r.connected_key[j] += master_f.readChar(); }
-            //for(i = 0; i < 50; i++) { this.reg.connected_city[j] += master_f.readChar(); }
             r.weight[j] = master_f.readDouble();
             for(i = 0; i < 60; i++) { r.wire_name[j] += master_f.readChar(); }
         }
@@ -262,9 +247,6 @@ public class FilesManager {
             str_b = new StringBuffer(r.connected_key[i]);
             this.str_b.setLength(7);
             this.master_f.writeChars(this.str_b.toString()); //KEY_CONNECTED_KEY
-            //str_b = new StringBuffer(r.connected_city[i]);
-            //this.str_b.setLength(50);
-            //this.master_f.writeChars(this.str_b.toString()); //CONNECTED_CITY
             master_f.writeDouble(r.weight[i]);               //WEIGHT
             this.str_b = new StringBuffer(r.wire_name[i]);
             this.str_b.setLength(60);

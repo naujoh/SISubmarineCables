@@ -396,7 +396,7 @@ public class SearchMethods {
     /**
      * Calcular g(q) = g(EA)+ c(EA,q)
      *
-     * @param currentNode Nodo actual
+     * @param q Nodo actual
      * @param ea
      * @param open ABIERTOS
      * @param close CERRADOS
@@ -446,7 +446,7 @@ public class SearchMethods {
      * Obtiene g(EA) en pocas palabras obtiene el costo del nodo inicial hasta
      * el nodo n.
      *
-     * @param currentNode Nodo actual
+     * @param  Nodo actual
      * @param open ABIERTAS
      * @param close CERRADAS
      * @return int valor de g(EA)
