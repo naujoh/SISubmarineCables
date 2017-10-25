@@ -396,7 +396,6 @@ public class SearchMethods {
     /**
      * Calcular g(q) = g(EA)+ c(EA,q)
      *
-     * @param q Nodo actual
      * @param ea
      * @param open ABIERTOS
      * @param close CERRADOS

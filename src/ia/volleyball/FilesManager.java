@@ -28,11 +28,16 @@ public class FilesManager {
         this.indexf_path = index_path;
     }
 
-    public void writeData(boolean overwrite) throws IOException{
+    /**
+     * Writes data from a Register object to index and master binary's files
+     * @param r
+     * @param overwrite
+     * @throws IOException
+     */
+    public void writeData(Register r, boolean overwrite) throws IOException{
         int logic_address = 1;
         this.master_f = new RandomAccessFile(this.masterf_path, "rw");
         this.index_f = new RandomAccessFile(this.indexf_path, "rw");
-
         if(!overwrite) {
             if (this.master_f.length() != 0) {
                 setRegisterSize(this.master_f);
@@ -41,62 +46,46 @@ public class FilesManager {
                 logic_address = ((int) (this.master_f.length() / this._regsize)) + 1;
             }
         }
-
-        this.str_b = new StringBuffer(this.reg.getKey());  //KEY
-        this.str_b.setLength(7);
-        this.index_f.writeChars(this.str_b.toString());    //KEY
-        this.index_f.writeInt(logic_address);              //LOGIC_ADD
-        this.master_f.writeChars(this.str_b.toString());
-        this.str_b = new StringBuffer(this.reg.getCity()); //CITY
-        this.str_b.setLength(50);
-        this.master_f.writeChars(this.str_b.toString());
-        this.str_b = new StringBuffer(this.reg.getCountry()); //COUNTRY
-        this.str_b.setLength(50);
-        this.master_f.writeChars(this.str_b.toString());
-
-        for(int i = 0; i < reg.getCONNECTIONS_NUMBER(); i++){
-            str_b = new StringBuffer(this.reg.connected_key[i]);
-            this.str_b.setLength(7);
-            this.master_f.writeChars(this.str_b.toString()); //KEY_CONNECTED_CITY
-            master_f.writeDouble(this.reg.weight[i]); //WEIGHT
-            this.str_b = new StringBuffer(this.reg.wire_name[i]);
-            this.str_b.setLength(60);
-            this.master_f.writeChars(this.str_b.toString()); //WIRE_NAME
-        }
-        master_f.close();
-        index_f.close();
-    }
-
-    public void writeData(Register r) throws IOException{
-        int logic_address = 1;
-        this.master_f = new RandomAccessFile(this.masterf_path, "rw");
-        this.index_f = new RandomAccessFile(this.indexf_path, "rw");
-
-        //if(!overwrite) {
-        if (this.master_f.length() != 0) {
-            setRegisterSize(this.master_f);
-            this.master_f.seek(this.master_f.length());
-            this.index_f.seek(this.index_f.length());
-            logic_address = ((int) (this.master_f.length() / this._regsize)) + 1;
-        }
-        //}
         this.str_b = new StringBuffer(r.getKey());
         this.str_b.setLength(7);
-        this.index_f.writeChars(this.str_b.toString());     //KEY
-        this.index_f.writeInt(logic_address);               //LOGIC ADDRESS
+        this.index_f.writeChars(this.str_b.toString());    //KEY TO INDEX
+        this.index_f.writeInt(logic_address);              //LOGIC ADDRESS TO INDEX
         writeDataFromRegisterObject(r);
         master_f.close();
         index_f.close();
     }
 
-    public void updateData(){
-
+    /**
+     * From a register object writes his data to master file
+     * @param r
+     * @throws IOException
+     */
+    public void writeDataFromRegisterObject(Register r) throws IOException{
+        this.str_b = new StringBuffer(r.getKey());
+        this.str_b.setLength(7);
+        this.master_f.writeChars(this.str_b.toString());    //KEY TO MASTER
+        this.str_b = new StringBuffer(r.getCity());
+        this.str_b.setLength(50);
+        this.master_f.writeChars(this.str_b.toString());    //CITY TO MASTER
+        this.str_b = new StringBuffer(r.getCountry());
+        this.str_b.setLength(50);
+        this.master_f.writeChars(this.str_b.toString());    //COUNTRY TO MASTER
+        for (int i = 0; i < r.getCONNECTIONS_NUMBER(); i++) {
+            str_b = new StringBuffer(r.connected_key[i]);
+            this.str_b.setLength(7);
+            this.master_f.writeChars(this.str_b.toString()); //KEY_CONNECTED_KEY
+            master_f.writeDouble(r.weight[i]);               //WEIGHT
+            this.str_b = new StringBuffer(r.wire_name[i]);
+            this.str_b.setLength(60);
+            this.master_f.writeChars(this.str_b.toString()); //WIRE_NAME
+        }
     }
 
-    public void deleteData(){
-
-    }
-
+    /**
+     * Returns an ArrayList of Register objects generated from master files
+     * @return
+     * @throws IOException
+     */
     public ArrayList<Register> readSequential() throws IOException{
         ArrayList<Register> data_reg = new ArrayList<>();
         this.master_f = new RandomAccessFile(masterf_path, "r");
@@ -107,6 +96,13 @@ public class FilesManager {
         return data_reg;
     }
 
+    /**
+     *  Returns s Register object from a city key
+     * @param key
+     * @param local_reg
+     * @return
+     * @throws IOException
+     */
     public Register getRegisterFromFile(String key, boolean local_reg) throws IOException{
         Register r;
         String aux_key = "";
@@ -136,7 +132,37 @@ public class FilesManager {
         return this.reg;
     }
 
-    public void addConnection(Register r, String key) throws IOException{
+    /**
+     * Establish data to a register object
+     * @param r
+     * @return
+     * @throws IOException
+     */
+    private Register setDataRegObject(Register r) throws IOException{
+        int i;
+        r.setKey("");
+        r.setCity("");
+        r.setCountry("");
+        for(i = 0; i < 7; i++) { r.setKey(r.getKey() + master_f.readChar()); }
+        for(i = 0; i < 50; i++) { r.setCity(r.getCity() + master_f.readChar()); }
+        for(i = 0; i < 50; i++) { r.setCountry(r.getCountry() + master_f.readChar()); }
+        for(int j = 0; j < r.getCONNECTIONS_NUMBER(); j++){
+            r.connected_key[j] = "";
+            r.wire_name[j] = "";
+            for(i = 0; i < 7; i++) { r.connected_key[j] += master_f.readChar(); }
+            r.weight[j] = master_f.readDouble();
+            for(i = 0; i < 60; i++) { r.wire_name[j] += master_f.readChar(); }
+        }
+        return r;
+    }
+
+    /**
+     * Moves the pointer of a master file to specified register and overwrite data from a register object
+     * @param r
+     * @param key
+     * @throws IOException
+     */
+    public void writeDataInSpecificAddress(Register r, String key) throws IOException{
         String aux_key = "";
         long overflow;
         int logic_address;
@@ -157,6 +183,11 @@ public class FilesManager {
         }
     }
 
+    /**
+     * Reads data from a sequential file and write the registers to random access file
+     * @param overwrite
+     * @throws IOException
+     */
     public void fileSeqToSeqIndex(boolean overwrite) throws IOException {
         String read;
         FileReader fr = new FileReader("register.txt");
@@ -175,17 +206,18 @@ public class FilesManager {
                         this.reg.connected_key[i] = tokens.nextToken();
                         this.reg.weight[i] = Double.parseDouble(tokens.nextToken());
                         this.reg.wire_name[i] = tokens.nextToken();
-                    } else {
-                        this.reg.connected_key[i] = "NULL";
-                        this.reg.weight[i] = -1;
-                        this.reg.wire_name[i] = "NULL";
-                    }
+                    } else { this.reg.setNullConnections(this.reg, i); }
                 }
-                writeData(overwrite);
+                writeData(this.reg, overwrite);
             }
         }
     }
 
+    /**
+     * Reads a register of a master file and get its size
+     * @param file
+     * @throws IOException
+     */
     private void setRegisterSize(RandomAccessFile file) throws IOException {
         int i;
         for (i = 0; i < 7; i++) { file.readChar(); }  //KEY
@@ -199,24 +231,14 @@ public class FilesManager {
         this._regsize = file.getFilePointer();
     }
 
-    private Register setDataRegObject(Register r) throws IOException{
-        int i;
-        r.setKey("");
-        r.setCity("");
-        r.setCountry("");
-        for(i = 0; i < 7; i++) { r.setKey(r.getKey() + master_f.readChar()); }
-        for(i = 0; i < 50; i++) { r.setCity(r.getCity() + master_f.readChar()); }
-        for(i = 0; i < 50; i++) { r.setCountry(r.getCountry() + master_f.readChar()); }
-        for(int j = 0; j < r.getCONNECTIONS_NUMBER(); j++){
-            r.connected_key[j] = "";
-            r.wire_name[j] = "";
-            for(i = 0; i < 7; i++) { r.connected_key[j] += master_f.readChar(); }
-            r.weight[j] = master_f.readDouble();
-            for(i = 0; i < 60; i++) { r.wire_name[j] += master_f.readChar(); }
-        }
-        return r;
-    }
 
+
+    /**
+     * Check if exists a register if the key of it exist in index file
+     * @param key
+     * @return
+     * @throws IOException
+     */
     public boolean keyExists(String key)throws IOException{
         this.index_f = new RandomAccessFile(indexf_path, "r");
         String aux_key = "";
@@ -232,40 +254,25 @@ public class FilesManager {
         return false;
     }
 
-    public void writeDataFromRegisterObject(Register r) throws IOException{
-        this.str_b = new StringBuffer(r.getKey());
-        this.str_b.setLength(7);
-        this.master_f.writeChars(this.str_b.toString());    //KEY
-        this.str_b = new StringBuffer(r.getCity());
-        this.str_b.setLength(50);
-        this.master_f.writeChars(this.str_b.toString());    //CITY
-        this.str_b = new StringBuffer(r.getCountry());
-        this.str_b.setLength(50);
-        this.master_f.writeChars(this.str_b.toString());             //COUNTRY
 
-        for (int i = 0; i < r.getCONNECTIONS_NUMBER(); i++) {
-            str_b = new StringBuffer(r.connected_key[i]);
-            this.str_b.setLength(7);
-            this.master_f.writeChars(this.str_b.toString()); //KEY_CONNECTED_KEY
-            master_f.writeDouble(r.weight[i]);               //WEIGHT
-            this.str_b = new StringBuffer(r.wire_name[i]);
-            this.str_b.setLength(60);
-            this.master_f.writeChars(this.str_b.toString()); //WIRE_NAME
-        }
-    }
 
+    /**
+     * From a key finds the name of an associated city
+     * @param key
+     * @return
+     */
     public String getCityName(String key){
         Register r = null;
         try{
-
             r=getRegisterFromFile(key, false);
-
-        }catch(Exception e){
-            System.out.println("Ocurrio un error al obtener la llave");
-        }
+        }catch(Exception e){ System.out.println("Ocurrio un error al obtener la llave"); }
         return r.getCity().trim();
     }
 
+    /**
+     * Returns register object associated to the class
+     * @return Register
+     */
     public Register getReg() {
         return reg;
     }

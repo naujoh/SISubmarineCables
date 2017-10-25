@@ -11,13 +11,13 @@ public class Main {
         SearchMethods sm = new SearchMethods(o_fm);
         String key, city;
         String origin, destiny;
-        int menu_option, another_reg;
+        int menu_option;
         Scanner input = new Scanner(System.in);
         do {
             System.out.println("==========================================================");
-            System.out.println("\nIngresa:\n1)Escribir en archivo\n2)Leer de manera secuencial"
-                    + "\n3)Insertar datos de archivo secuencial\n4)Busqueda primero en anchura "
-                    + "\n5)Busqueda primero en profundidad \n6)Grafos O \n7)Algoritmo A y A* \n8)Salir");
+            System.out.println("\nIngresa:\n1)Escribir en archivo\n2)Actualizar nodo\n3)Leer de manera secuencial"
+                    + "\n4)Insertar datos de archivo secuencial\n5)Busqueda primero en anchura "
+                    + "\n6)Busqueda primero en profundidad \n7)Grafos O \n8)Algoritmo A y A* \n9)Salir");
             System.out.println("==========================================================");
             menu_option = input.nextInt();
             switch (menu_option) {
@@ -31,13 +31,16 @@ public class Main {
                     }
                     break;
                 case 2:
+                        o_fm.getReg().updateDatadReg(o_fm);
+                    break;
+                case 3:
                     try {
                         for (Register r : o_fm.readSequential()) {
-                            //System.out.println("----------------------------------------------------------");
                             System.out.println("LLAVE: " + r.getKey().trim());
                             System.out.println("CIUDAD: " + r.getCity().trim());
                             System.out.println("PAIS: " + r.getCountry().trim());
                             System.out.println("CONEXIONES:");
+                            System.out.println("..........................................................");
                             for (int i = 0; i < r.getCONNECTIONS_NUMBER(); i++) {
                                 if (!r.connected_key[i].trim().equals("NULL")) {
                                     System.out.println("LLAVE: " + r.connected_key[i].trim());
@@ -53,8 +56,8 @@ public class Main {
                         e.printStackTrace();
                     }
                     break;
-                case 3:
-                    System.out.println("ESCRIBIR DATOS DESDE ARCHIVO SECUENCIAL");
+                case 4:
+                    System.out.println("ESCRIBIENDO DATOS DESDE ARCHIVO SECUENCIAL");
                     try {
                         o_fm.fileSeqToSeqIndex(false);
                     } catch (Exception e) {
@@ -62,7 +65,7 @@ public class Main {
                         e.printStackTrace();
                     }
                     break;
-                case 4:
+                case 5:
                     System.out.println("METODO DE BUSQUEDA PRIMERO EN ANCHURA");
                     System.out.println("Ingresa la llave del registro raiz:");
                     key = input.next();
@@ -74,7 +77,7 @@ public class Main {
                         e.printStackTrace();
                     }
                     break;
-                case 5:
+                case 6:
                     String sort_name, sort_weight;
                     System.out.println("METODO DE BUSQUEDA PRIMERO EN PROFUNDIDAD");
                     System.out.println("Ingresa la llave del registro raiz:");
@@ -90,7 +93,7 @@ public class Main {
                         e.printStackTrace();
                     }
                     break;
-                case 6:
+                case 7:
                     System.out.println("Metodo de Busqueda Grafos O");
                     System.out.println("Ingresa la llave del registro raiz:");
                     origin = input.next();
@@ -107,7 +110,7 @@ public class Main {
                         e.printStackTrace();
                     }
                     break;
-                case 7:
+                case 8:
                     System.out.println("Metodo de los Algoritmos A y A*");
                     System.out.println("Ingrese la llave del registro raiz :");
                     key = input.next();
