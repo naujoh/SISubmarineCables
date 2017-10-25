@@ -17,7 +17,7 @@ public class Main {
             System.out.println("==========================================================");
             System.out.println("\nIngresa:\n1)Escribir en archivo\n2)Actualizar nodo\n3)Leer de manera secuencial"
                     + "\n4)Insertar datos de archivo secuencial\n5)Busqueda primero en anchura "
-                    + "\n6)Busqueda primero en profundidad \n7)Grafos O \n8)Algoritmo A y A* \n9)Salir");
+                    + "\n6)Busqueda primero en profundidad \n7)Grafos O \n8)Algoritmo A \n9)Algoritmo A* \n10)Salir");
             System.out.println("==========================================================");
             menu_option = input.nextInt();
             switch (menu_option) {
@@ -31,7 +31,7 @@ public class Main {
                     }
                     break;
                 case 2:
-                        o_fm.getReg().updateDatadReg(o_fm);
+                    o_fm.getReg().updateDatadReg(o_fm);
                     break;
                 case 3:
                     try {
@@ -103,32 +103,48 @@ public class Main {
                         List<String> result = sm.grafosO(o_fm.getRegisterFromFile(origin, false), destiny);
                         Object path [] = result.toArray();
                         for(int i = path.length - 1; i >= 0; i--){
-                            System.out.println(path[i]);
+                            System.out.println(path[i].toString().trim());
                         }
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
                 case 8:
-                    System.out.println("Metodo de los Algoritmos A y A*");
+                    System.out.println("Metodo A");
                     System.out.println("Ingrese la llave del registro raiz :");
                     key = input.next();
                     System.out.println("Ingrese el Nodo Destino");
                     destiny = input.next();
                     try {
                         List<String> result = sm.grafosA(o_fm.getRegisterFromFile(key, false), destiny);
-                        Object path [] = result.toArray();
-                        for(int i = path.length - 1; i >= 0; i--){
-                            System.out.println(path[i]);
+                        Object path[] = result.toArray();
+                        for (int i = path.length - 1; i >= 0; i--) {
+                            System.out.println(path[i].toString().trim());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    break;
+                case 9:
+                    System.out.println("Metodo A*");
+                    System.out.println("Ingrese la llave del registro raiz :");
+                    key = input.next();
+                    System.out.println("Ingrese el Nodo Destino");
+                    destiny = input.next();
+                    try {
+                        List<String> result = sm.grafosAEstrella(o_fm.getRegisterFromFile(key, false), destiny);
+                        Object path[] = result.toArray();
+                        for (int i = path.length - 1; i >= 0; i--) {
+                            System.out.println(path[i].toString().trim());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
 
                 default:
                     break;
             }
-        } while (menu_option != 8);
+        } while (menu_option != 10);
     }
 }

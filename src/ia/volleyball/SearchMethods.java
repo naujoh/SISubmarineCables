@@ -220,7 +220,7 @@ public class SearchMethods {
     }
 
     /**
-     * Calcula la ruta de un origen a un destino los metodos a, además de
+     * Calcula la ruta de un origen a un destino del método a, además de
      * imprimir los resultados a consola
      *
      * @param origin Register
@@ -239,19 +239,19 @@ public class SearchMethods {
             double g;
             double f;
             double h;
-            double oldG;
+            double oldF;
 
             System.out.println("");
             System.out.println("\n-----------------------");
             System.out.println("Grafos A");
             System.out.println("Entadas iniciales");
-            System.out.println("Origen: " + origin.getCity().trim());
+            System.out.println("Origen: " + origin.getCity());
             System.out.println("Destino: " + destiny);
             System.out.println("-----------------------\n");
             System.out.println("");
 
             System.out.println("-----Inicialización----");
-            open.put(originCity, new Data(originKey, originKey, originCity, "-", 0, 0)); //1. ABIERTOS←(origin); CERRADOS←( ); 
+            open.put(originCity, new Data(originKey, originKey, originCity, "-", 0, 0)); //1. ABIERTOS←(origin); CERRADOS←( );
             System.out.println("Abiertas");
             printOpenClose(open);
             System.out.println("-----------------------\n");
@@ -259,7 +259,7 @@ public class SearchMethods {
             while (!open.isEmpty()) {  //2. Si ABIERTOS es la lista vacía, finalizar con fallo.
                 System.out.println("\n2: Abierta no esta vacia por lo que");
                 //3. EA←primer elemento de ABIERTOS.
-                // Eliminar EA de ABIERTOS y llevarlo a CERRADOS.       
+                // Eliminar EA de ABIERTOS y llevarlo a CERRADOS.
                 ea = moveFirstTo(open, close);
                 System.out.println("3. EA←primer elemento de ABIERTOS. \nEA = " + ea.getKey());
                 System.out.println("Eliminar EA de ABIERTOS y llevarlo a CERRADOS. ");
@@ -268,11 +268,162 @@ public class SearchMethods {
                 System.out.println("\nCerrados");
                 printOpenClose(close);
 
-                // 4. Si EA es una meta, fin con éxito. Devolver el camino hasta la meta. 
+                //4. Expandir nodo EA, generando todos sus sucesores como hijos de EA.
+                originKey = ea.getValue().key;
+                nodeChildrens = expandNodeA(originKey);
+                System.out.println("\n4: EA = Sucesores de n = ");
+                for (Data entry : nodeChildrens) {
+                    System.out.println(entry.pCity);
+                }
+
+                // 5. Si alguno de los sucesores de EA es una meta, fin con éxito. Devolver el camino hasta la meta.
+                if (contains(nodeChildrens, destiny)) {
+                    System.out.println("\n-----Finalización----");
+                    System.out.println("4: Si alguno de los sucesores de EA es una meta " + destiny);
+                    for (Data entry : nodeChildrens) {
+                        System.out.println(entry.pCity);
+                    }
+                    System.out.println("entonces");
+                    // Devolver el camino hasta la meta.
+                    System.out.println("El camino de origen = " + origin.getCity().trim()
+                            + "a destino = " + destiny + " es: ");
+                    return getPathA(originCity, ea, open, close);
+                }
+
+                System.out.println("\n ------------6. Para cada sucesor de EA = " + ea.getKey().trim() + "-------");
+                for (Data currentNode : nodeChildrens) {               //6. Para cada sucesor de EA
+                    System.out.println("q = " + currentNode.pCity);
+                    System.out.println("--------------------------");
+                    g = calculateG(currentNode, ea, open, close);      // a) Calcular g(q)=g(EA)+c(EA,q)
+                    System.out.println("Calcular  f(n)=g(n)+h(n) = donde g = " + g);
+                    h = calculateH(currentNode, destiny);  //calcular f(q)=g(q)+h(q),
+                    System.out.println("Y h(q) = " + h);
+                    f = g + h;
+                    System.out.println("Por lo que f(q) = " + f);
+                    if (open.containsKey(currentNode.pCity) || close.containsKey(currentNode.pCity)) {
+                        //c) Si q estaba en ABIERTOSo en CERRADOS, comparar el nuevo valor f(q) con el anterior.
+                        System.out.println("q = " + currentNode.key + " estaba en ABIERTOS o en CERRADOS , comparar el nuevo valor f(q) con el anterior");
+                        oldF = getInitToNF(currentNode, open, close);
+
+                        if (oldF > f) {
+                            //Si el nuevo es menor, colocar EA como nuevo padre y asignar el nuevo valor f(q).
+                            System.out.println("f anterior = " + oldF + " fue mayor o igual que que f actual = " + g);
+                            System.out.println("Por lo que se coloca EA = " + ea.getKey().trim() + " como nuevo padre de q = "
+                                    + currentNode.pCity + " en ABIERTOS o Cerrados c y asinando el nuevo valor de f");
+                            open.replace(currentNode.pCity, new Data(currentNode.pKey, ea.getValue().key, ea.getKey(), currentNode.wire, f, 0));
+                            System.out.println("\nAbiertas");
+                            printOpenClose(open);
+                            System.out.println("\nCerrados");
+                            printOpenClose(open);
+
+                            if (close.containsKey(currentNode.pKey)) { //Si estaba en CERRADOS
+                                System.out.println("\nSi estaba en CERRADOS llevarle a ABIERTOS y eliminarle de CERRADOS");
+                                open.put(currentNode.pCity, close.get(currentNode.pCity)); //Llevarle a ABIERTOS.
+                                close.remove(currentNode.pKey); // Eliminarle de CERRADOS
+                                System.out.println("\nAbiertas");
+                                printOpenClose(open);
+                                System.out.println("\nCerrados");
+                                printOpenClose(open);
+                            }
+
+                        } else {
+                            //Si el anterior es menor o igual, descartar el nodo recién generado.
+                            System.out.println("g anterior = " + oldF + " fue menor que g actual = " + g);
+                            System.out.println("Por lo que se descarta el nodo recién generado");
+                        }
+
+                    } else { //b) Si q no estaba en ABIERTOS ni en CERRADOS,
+
+                        //añadir q a ABIERTOS como hijo de EA, asignando los valores f(q) y g(q).
+                        open.put(currentNode.pCity, new Data(currentNode.pKey, ea.getValue().key, ea.getKey(), currentNode.wire, f, 0));
+                        System.out.println("Anadir q = " + currentNode.key + "como hijo de EA = " + ea.getKey().trim()
+                                + " asignando los valores de f(q) = " + f);
+                        System.out.println("\nAbiertas");
+                        printOpenClose(open);
+                    }
+                    System.out.println("\n-----------------\n");
+                }
+
+                // 7. Reordenar ABIERTOSsegún valores crecientes de f.
+                open = sortHashAscendingly(open);
+
+            }
+        } else {
+//            throw new RuntimeException("Llave invalida");
+            System.out.println("Nodo Invalido");
+
+        }
+        System.out.println("Nodo destino no encontrado");
+//        throw new RuntimeException("Nodo no encontrado");
+        return new Stack<>();
+
+    }
+
+    /**
+     * Determinar si un nodo se encuentra en la lista de nodos expandidos
+     *
+     * @param list
+     * @param node
+     * @return boolean
+     */
+    private boolean contains(List<Data> list, String node) {
+        return list.stream().anyMatch((currentNode) -> (node.trim().equals(currentNode.pCity.trim())));
+    }
+
+    /**
+     * Calcula la ruta de un origen a un destino los metodos a, además de
+     * imprimir los resultados a consola
+     *
+     * @param origin Register
+     * @param destiny Register
+     * @return List< String > Con el camino del nodo origin a destiny
+     * @throws IOException
+     */
+    public List<String> grafosAEstrella(Register origin, String destiny) throws IOException {
+        String originKey = origin.getKey();
+        String originCity = origin.getCity();
+        if (originKey != null) {
+            LinkedHashMap<String, Data> open = new LinkedHashMap<>();  //Lista de abiertos
+            LinkedHashMap<String, Data> close = new LinkedHashMap<>(); //Lista de cerrados
+            List<Data> nodeChildrens;
+            Map.Entry<String, Data> ea;
+            double g;
+            double f;
+            double h;
+            double oldG;
+
+            System.out.println("");
+            System.out.println("\n-----------------------");
+            System.out.println("Grafos A");
+            System.out.println("Entadas iniciales");
+            System.out.println("Origen: " + origin.getCity());
+            System.out.println("Destino: " + destiny);
+            System.out.println("-----------------------\n");
+            System.out.println("");
+
+            System.out.println("-----Inicialización----");
+            open.put(originCity, new Data(originKey, originKey, originCity, "-", 0, 0)); //1. ABIERTOS←(origin); CERRADOS←( );
+            System.out.println("Abiertas");
+            printOpenClose(open);
+            System.out.println("-----------------------\n");
+
+            while (!open.isEmpty()) {  //2. Si ABIERTOS es la lista vacía, finalizar con fallo.
+                System.out.println("\n2: Abierta no esta vacia por lo que");
+                //3. EA←primer elemento de ABIERTOS.
+                // Eliminar EA de ABIERTOS y llevarlo a CERRADOS.
+                ea = moveFirstTo(open, close);
+                System.out.println("3. EA←primer elemento de ABIERTOS. \nEA = " + ea.getKey().trim());
+                System.out.println("Eliminar EA de ABIERTOS y llevarlo a CERRADOS. ");
+                System.out.println("\nAbiertas");
+                printOpenClose(open);
+                System.out.println("\nCerrados");
+                printOpenClose(close);
+
+                // 4. Si EA es una meta, fin con éxito. Devolver el camino hasta la meta.
                 if (ea.getKey().trim().equals(destiny.trim())) {
                     System.out.println("\n-----Finalización----");
-                    System.out.println("4: EA = Objetivo = " + ea.getKey() + " entonces");
-                    // Devolver el camino hasta la meta. 
+                    System.out.println("4: EA = Objetivo = " + ea.getKey().trim() + " entonces");
+                    // Devolver el camino hasta la meta.
                     System.out.println("El camino de origen = " + origin.getCity().trim()
                             + "a destino = " + destiny + " es: ");
                     return getPathA(originCity, ea, open, close);
@@ -286,23 +437,23 @@ public class SearchMethods {
                     System.out.println(entry.pCity);
                 }
 
-                System.out.println("\n ------------6. Para cada sucesor de EA = " + ea.getKey() + "-------");
-                for (Data currentNode : nodeChildrens) {               //6. Para cada sucesor de EA   
+                System.out.println("\n ------------6. Para cada sucesor de EA = " + ea.getKey().trim() + "-------");
+                for (Data currentNode : nodeChildrens) {               //6. Para cada sucesor de EA
                     System.out.println("q = " + currentNode.pCity);
                     System.out.println("--------------------------");
-                    g = calculateG(currentNode, ea, open, close);      // a) Calcular g(q)=g(EA)+c(EA,q) 
+                    g = calculateG(currentNode, ea, open, close);      // a) Calcular g(q)=g(EA)+c(EA,q)
                     System.out.println("Calcular g(q)=g(EA)+c(EA,q) = " + g);
                     if (open.containsKey(currentNode.pCity) || close.containsKey(currentNode.pCity)) {
                         //c) Si q estaba en ABIERTOSo en CERRADOS, comparar el nuevo valor f(q) con el anterior.
-                        System.out.println("q = " + currentNode.key + " estaba en ABIERTOS o en CERRADOS , comparar el nuevo valor f(q) con el anterior");
-                        oldG = getInitToN(currentNode, open, close);
+                        System.out.println("q = " + currentNode.key + " estaba en ABIERTOS o en CERRADOS , comparar el nuevo valor g(q) con el anterior");
+                        oldG = getInitToNG(currentNode, open, close);
 
                         if (oldG > g) {
-                            //Si el nuevo es menor, colocar EA como nuevo padre y asignar el nuevo valor f(q).
+                            //Si el nuevo es menor, colocar EA como nuevo padre y asignar los nuevos valores g(q) y f(q).
                             System.out.println("g anterior = " + oldG + " fue mayor o igual que que g actual = " + g);
-                            System.out.println("Por lo que se coloca EA = " + ea.getKey() + " como nuevo padre de q = "
+                            System.out.println("Por lo que se coloca EA = " + ea.getKey().trim() + " como nuevo padre de q = "
                                     + currentNode.pCity + " en ABIERTOS o Cerrados c y ase recalculan f(q) y g(q)");
-                            h = calculateH(currentNode, ea);  //calcular f(q)=g(q)+h(q),
+                            h = calculateH(currentNode, destiny);  //calcular f(q)=g(q)+h(q),
                             f = g + h;
                             System.out.println("Calcular f(q)=g(q)+h(q)");
                             System.out.println("Donde h(q) = " + h);
@@ -329,17 +480,17 @@ public class SearchMethods {
                             System.out.println("Por lo que se descarta el nodo recién generado");
                         }
 
-                    } else { //b) Si q no estaba en ABIERTOS ni en CERRADOS, 
+                    } else { //b) Si q no estaba en ABIERTOS ni en CERRADOS,
                         System.out.println("q = " + currentNode.key + " no esta ni en ABIERTOS ni en CERRADOS");
-                        h = calculateH(currentNode, ea);  //calcular f(q)=g(q)+h(q),
+                        h = calculateH(currentNode, destiny);  //calcular f(q)=g(q)+h(q),
                         System.out.println("Calcular f(q)=g(q)+h(q)");
 
                         System.out.println("Donde h(q) = " + h);
                         f = g + h;
                         System.out.println("Por lo que f(q) = " + f);
-                        //añadir q a ABIERTOS como hijo de EA, asignando los valores f(q) y g(q). 
+                        //añadir q a ABIERTOS como hijo de EA, asignando los valores f(q) y g(q).
                         open.put(currentNode.pCity, new Data(currentNode.pKey, ea.getValue().key, ea.getKey(), currentNode.wire, f, g));
-                        System.out.println("Anadir q = " + currentNode.key + "como hijo de EA = " + ea.getKey()
+                        System.out.println("Anadir q = " + currentNode.key + "como hijo de EA = " + ea.getKey().trim()
                                 + " asignando los valores de f(q) = " + f + "y g(q) = " + g);
                         System.out.println("\nAbiertas");
                         printOpenClose(open);
@@ -369,27 +520,26 @@ public class SearchMethods {
      */
     private void printOpenClose(LinkedHashMap<String, Data> hash) {
         hash.entrySet().forEach((entry) -> {
-            System.out.println(entry.getKey() + "  -  " + entry.getValue().pCity + "  -  " + entry.getValue().g + "  -  " + entry.getValue().f);
+            System.out.println(entry.getKey().trim() + "  -  " + entry.getValue().pCity.trim() + "  -  " + entry.getValue().g + "  -  " + entry.getValue().f);
         });
     }
 
     /**
-     * Calcula h(q) para esto se hace uso de los cambios de cables entre el nodo
-     * actual y su padre
-     *
-     * @param currentNode Nodo actual
-     * @param ea
+     * Calcula h(q) para esto se manda a llamar el metodo de grafos o entre q y
+     * el destino
      * @return valor de h(q)
      */
-    private double calculateH(Data currentNode, Map.Entry<String, Data> ea) {
-        String nextCable = currentNode.wire;
-        String currentCable = ea.getValue().wire;
-        if (currentCable.equals("-")) {
-            return 0.0;
-        } else if (!currentCable.equals(nextCable)) {
-            return currentNode.g * 0.3;
+    private double calculateH(Data currentNode, String destiny) throws IOException {
+        if (currentNode.pCity.trim().equals(destiny.trim()) || currentNode.pCity.equals(destiny)) {
+            return 0;
         }
-        return 0.0;
+
+        List<String> result = grafosOHeuristic(fm.getRegisterFromFile(currentNode.pKey.trim(), false), destiny.trim());
+        if (!result.isEmpty()) {
+            return Double.parseDouble(result.get(result.size() - 1));
+        } else {
+            return 0;
+        }
 
     }
 
@@ -402,8 +552,8 @@ public class SearchMethods {
      * @return
      */
     private double calculateG(Data currentNode, Map.Entry<String, Data> ea,
-            LinkedHashMap<String, Data> open,
-            LinkedHashMap<String, Data> close) {
+                              LinkedHashMap<String, Data> open,
+                              LinkedHashMap<String, Data> close) {
 
         if (open.containsKey(ea.getKey())) {
             return currentNode.g + open.get(ea.getKey()).g;
@@ -443,16 +593,37 @@ public class SearchMethods {
 
     /**
      * Obtiene g(EA) en pocas palabras obtiene el costo del nodo inicial hasta
-     * el nodo n.
+     * el nodo n de g.
      *
-     * @param  Nodo actual
      * @param open ABIERTAS
      * @param close CERRADAS
      * @return int valor de g(EA)
      */
-    private double getInitToN(Data currentNode,
-            LinkedHashMap<String, Data> open,
-            LinkedHashMap<String, Data> close
+    private double getInitToNG(Data currentNode,
+                               LinkedHashMap<String, Data> open,
+                               LinkedHashMap<String, Data> close
+    ) {
+        if (open.containsKey(currentNode.pCity)) {
+            return currentNode.f + open.get(currentNode.pCity).f;
+        } else if (close.containsKey(currentNode.pCity)) {
+            return currentNode.f + close.get(currentNode.pCity).f;
+        } else {
+            return 0;
+        }
+
+    }
+
+    /**
+     * Obtiene g(EA) en pocas palabras obtiene el costo del nodo inicial hasta
+     * el nodo n de f.
+     *
+     * @param open ABIERTAS
+     * @param close CERRADAS
+     * @return int valor de g(EA)
+     */
+    private double getInitToNF(Data currentNode,
+                               LinkedHashMap<String, Data> open,
+                               LinkedHashMap<String, Data> close
     ) {
         if (open.containsKey(currentNode.pCity)) {
             return currentNode.f + open.get(currentNode.pCity).f;
@@ -475,13 +646,21 @@ public class SearchMethods {
      * @return List< String > Camino resultante del nodo origen al destino
      */
     private List<String> getPathA(String origin,
-            Map.Entry<String, Data> ea,
-            LinkedHashMap<String, Data> open,
-            LinkedHashMap<String, Data> close) {
+                                  Map.Entry<String, Data> ea,
+                                  LinkedHashMap<String, Data> open,
+                                  LinkedHashMap<String, Data> close) {
         List<String> path = new Stack<>();
         boolean a = false;
         String father = ea.getKey();
         path.add(father);
+        double weight = 0.0;
+
+        if (open.containsKey(father)) {
+            weight += open.get(father).g;
+
+        } else if (close.containsKey(father)) {
+            weight += close.get(father).g;
+        }
 
         while (!path.contains(origin)) {
             if (open.containsKey(father)) {
@@ -501,11 +680,7 @@ public class SearchMethods {
 
         }
 
-        if (!a) {
-            path.add("A*");
-        } else {
-            path.add("A");
-        }
+        path.add(Double.toString(weight));
 
         return path;
     }
@@ -574,8 +749,8 @@ public class SearchMethods {
     }
 
     /**
-     * Calcula la ruta de un origen a un destino los metodos a, además de
-     * imprimir los resultados a consola
+     * Calcula la ruta de un origen a un destino usando el método de grafos O,
+     * además de imprimir los resultados a consola
      *
      * @param origin Register
      * @param destiny Register
@@ -593,7 +768,7 @@ public class SearchMethods {
 
             System.out.println("");
             System.out.println("\n-----------------------");
-            System.out.println("Grafos 0");
+            System.out.println("Grafos O");
             System.out.println("Entadas iniciales");
             System.out.println("Origen: " + origin.getCity());
             System.out.println("Destino: " + destiny);
@@ -601,24 +776,24 @@ public class SearchMethods {
             System.out.println("");
 
             System.out.println("-----Inicialización----");
-            abierta.add(new Data(origin.getKey(), origin.getCity())); //1: ABIERTA = (inicial); 
+            abierta.add(new Data(origin.getKey(), origin.getCity())); //1: ABIERTA = (inicial);
             System.out.println("1: ABIERTA = inicial = " + origin.getCity());
             System.out.println("-----------------------\n");
 
-            while (!abierta.isEmpty()) {  //2: mientras NoVacía(ABIERTA) hacer  
+            while (!abierta.isEmpty()) {  //2: mientras NoVacía(ABIERTA) hacer
                 System.out.println("2: Abierta no esta vacia por lo que");
-                n = abierta.remove(0); // n=ExtraePrimero(ABIERTA); 
+                n = abierta.remove(0); // n=ExtraePrimero(ABIERTA);
                 System.out.println("n = " + n.pCity);
 
-                if (n.pCity.trim().equals(destiny.trim())) {  //4: Si EsObjetivo(n) entonces 
+                if (n.pCity.trim().equals(destiny.trim())) {  //4: Si EsObjetivo(n) entonces
                     System.out.println("\n-----Finalización----");
                     System.out.println("4: n = Objetivo = " + n.pCity.trim() + " entonces");
-                    //5: Devolver Camino(inicial,n); 
-                    System.out.println("5:El camino de origen = " + origin.getCity()
+                    //5: Devolver Camino(inicial,n);
+                    System.out.println("5:El camino de origen = " + origin.getCity().trim()
                             + "a destino = " + destiny + " es: ");
                     return getPathO(tablaA, n.pCity, origin.getCity(), destiny);
 
-                } //6: Fin Fs                    i 
+                } //6: Fin Fs                    i
 
                 s = expandNodeO(n.pKey.trim()); //7: S=Sucesores(n);
                 System.out.println("\n7: S = Sucesores de n = ");
@@ -628,21 +803,21 @@ public class SearchMethods {
 
                 if (tablaA.containsKey(n.pCity)) {
                     System.out.println("\n8:Añade S a la entrada de n en la TABLA_A");
-                    tablaA.get(n.pCity).s = s; //8:Añade S a la entrada de n en la TABLA_A 
+                    tablaA.get(n.pCity).s = s; //8:Añade S a la entrada de n en la TABLA_A
                     printTableA(tablaA);
                 } else {
                     System.out.println("\n8:Añade S a la entrada de n en la TABLA_A");
-                    tablaA.put(n.pCity, new Data(s, "-", "-", 0)); //8:Añade S a la entrada de n en la TABLA_A 
+                    tablaA.put(n.pCity, new Data(s, "-", "-", 0)); //8:Añade S a la entrada de n en la TABLA_A
                     printTableA(tablaA);
                 }
 
                 System.out.println("\n-------Recorrido de hijo(s) de S = " + n.pCity + "----------\n");
-                for (Map.Entry<String, Data> q : s.entrySet()) { //9: Para cada q de S hacer 
+                for (Map.Entry<String, Data> q : s.entrySet()) { //9: Para cada q de S hacer
                     System.out.println("9: Para cada q de S hacer donde q = " + q.getKey());
                     System.out.println("--------------------------");
-                    if (tablaA.containsKey(q.getKey())) { //10: si(qє TABLA_A) entonces 
+                    if (tablaA.containsKey(q.getKey())) { //10: si(qє TABLA_A) entonces
                         System.out.println("\n10: q є TABLA_A entonces");
-                        //11: Rectificar(q,n,Coste(n,q)); 
+                        //11: Rectificar(q,n,Coste(n,q));
                         System.out.println("\n11: Rectificar(q,n,Coste(n,q)); donde n = " + q.getKey() + " q = " + n.pCity);
                         rectificar(tablaA, n.pCity, q);
                         System.out.println("");
@@ -660,7 +835,7 @@ public class SearchMethods {
                         System.out.println("\nAgregar a la tabla A");
                         printTableA(tablaA);
                         System.out.println("\nAgregar q a abierta");
-                        abierta.add(new Data(q.getValue().pKey, q.getKey())); //ABIERTA=Mezclar(q,ABIERTA); 
+                        abierta.add(new Data(q.getValue().pKey, q.getKey())); //ABIERTA=Mezclar(q,ABIERTA);
                         System.out.println("\nAbierta");
                         abierta.forEach((entry) -> {
                             System.out.println(entry.pCity);
@@ -674,6 +849,61 @@ public class SearchMethods {
             System.out.println("Nodo Invalido");
         }
         System.out.println("Nodo destino no encontrado");
+        return new Stack<>();
+    }
+
+    /**
+     * Calcula la ruta de un origen a un destino usando el metodo de grafos o
+     * para obtener h(q)
+     *
+     * @param origin Register
+     * @param destiny Register
+     * @return List< String > Con el camino del nodo origin a destiny
+     * @throws IOException
+     */
+    public List<String> grafosOHeuristic(Register origin, String destiny) throws IOException {
+        String originKey = origin.getKey();
+        if (originKey != null) {
+            List<Data> abierta = new ArrayList<>();
+            Data n;
+            double costo;
+            HashMap<String, Data> s;
+            HashMap<String, Data> tablaA = new HashMap<>();
+
+            abierta.add(new Data(origin.getKey(), origin.getCity())); //1: ABIERTA = (inicial);
+
+            while (!abierta.isEmpty()) {  //2: mientras NoVacía(ABIERTA) hacer
+                n = abierta.remove(0); // n=ExtraePrimero(ABIERTA);
+
+                if (n.pCity.trim().equals(destiny.trim())) {  //4: Si EsObjetivo(n) entonces
+                    //5: Devolver Camino(inicial,n);
+                    return getPathO(tablaA, n.pCity, origin.getCity(), destiny);
+
+                } //6: Fin Fs                    i
+
+                s = expandNodeO(n.pKey.trim()); //7: S=Sucesores(n);
+
+                if (tablaA.containsKey(n.pCity)) {
+                    tablaA.get(n.pCity).s = s; //8:Añade S a la entrada de n en la TABLA_A
+                } else {
+                    tablaA.put(n.pCity, new Data(s, "-", "-", 0)); //8:Añade S a la entrada de n en la TABLA_A
+                }
+
+                for (Map.Entry<String, Data> q : s.entrySet()) { //9: Para cada q de S hacer
+                    if (tablaA.containsKey(q.getKey())) { //10: si(qє TABLA_A) entonces
+                        //11: Rectificar(q,n,Coste(n,q));
+                        rectificar(tablaA, n.pCity, q);
+                        //12: Ordenar(ABIERTA);{si es preciso
+
+                    } else { //13: sino
+                        //14: Coloca q en la TABLA_A con
+                        costo = calculateF(tablaA, n.pCity, q); //Coste (inicial,q)= Coste (inicial,n) + Coste(n,q)
+                        tablaA.put(q.getKey(), new Data(n.pKey, n.pCity, costo)); //Anterior(q)=n
+                        abierta.add(new Data(q.getValue().pKey, q.getKey())); //ABIERTA=Mezclar(q,ABIERTA);
+                    }
+                }
+            }
+        }
         return new Stack<>();
     }
 
@@ -695,8 +925,11 @@ public class SearchMethods {
             if (flag) {
                 sdata = "-";
             }
+            String city="-";
+            if(entry.getValue().pCity != null)
+                city = entry.getValue().pCity.trim();
 
-            System.out.println(entry.getKey() + "  |  " + sdata + "  |  " + entry.getValue().pCity + "  |  " + entry.getValue().f);
+            System.out.println(entry.getKey().trim() + "  |  " + sdata + "  |  " + city + "  |  " + entry.getValue().f);
         }
 
     }
@@ -714,7 +947,6 @@ public class SearchMethods {
             tablaA.get(q.getKey()).f = tablaA.get(n).f + q.getValue().f;
             tablaA.get(q.getKey()).pCity = n;
             rectificarLista(tablaA, q.getKey());
-
         }
     }
 
@@ -730,7 +962,6 @@ public class SearchMethods {
                 rectificar(tablaA, n, q);
             });
         }
-
     }
 
     /**
@@ -738,7 +969,7 @@ public class SearchMethods {
      *
      * @param tablaA
      * @param n
-     * @param origin origen 
+     * @param origin origen
      * @param destiny destino
      * @return List< String > Camino resultante del nodo origen al destino
      */
@@ -746,13 +977,14 @@ public class SearchMethods {
         List<String> path = new Stack<>();
         path.add(destiny);
 //        path.add(n);
+        double weight = 0.0;
         String father = n;
-
+        weight += tablaA.get(father).f;
         while (!father.trim().equals(origin.trim())) {
             father = tablaA.get(father).pCity;
             path.add(father);
         }
-
+        path.add(Double.toString(weight));
         return path;
     }
 
@@ -767,7 +999,6 @@ public class SearchMethods {
      */
     private double calculateF(HashMap<String, Data> tablaA, String n, Map.Entry<String, Data> q) {
         return tablaA.get(n).f + q.getValue().f;
-
     }
 
     /**

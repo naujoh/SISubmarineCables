@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eaa816a9-b0f1-4ba8-bbac-8938f896bf23" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/index_submarine_cables" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/master_submarine_cables" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SISubmarineCables1.0/ia/volleyball/FilesManager.class" afterPath="$PROJECT_DIR$/out/production/SISubmarineCables1.0/ia/volleyball/FilesManager.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SISubmarineCables1.0/ia/volleyball/Main.class" afterPath="$PROJECT_DIR$/out/production/SISubmarineCables1.0/ia/volleyball/Main.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SISubmarineCables1.0/ia/volleyball/Register.class" afterPath="$PROJECT_DIR$/out/production/SISubmarineCables1.0/ia/volleyball/Register.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SISubmarineCables1.0/ia/volleyball/SearchMethods.class" afterPath="$PROJECT_DIR$/out/production/SISubmarineCables1.0/ia/volleyball/SearchMethods.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ia/volleyball/FilesManager.java" afterPath="$PROJECT_DIR$/src/ia/volleyball/FilesManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ia/volleyball/Main.java" afterPath="$PROJECT_DIR$/src/ia/volleyball/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ia/volleyball/Register.java" afterPath="$PROJECT_DIR$/src/ia/volleyball/Register.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ia/volleyball/SearchMethods.java" afterPath="$PROJECT_DIR$/src/ia/volleyball/SearchMethods.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -22,7 +20,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/SISubmarineCables$Main.coverage" NAME="Main Coverage Results" MODIFIED="1508491297183" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SISubmarineCables$Main.coverage" NAME="Main Coverage Results" MODIFIED="1508940478964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SISubmarineCables1_0$Main.coverage" NAME="Main Coverage Results" MODIFIED="1508130918728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="FavoritesManager">
@@ -35,65 +33,7 @@
     <fileColor scope="Non-Project Files (Material Palenight)" color="2f2e43" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Register.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/ia/volleyball/Register.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="277" column="79" lean-forward="false" selection-start-line="277" selection-start-column="79" selection-end-line="277" selection-end-column="79" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <marker date="1508898124356" expanded="true" signature="16973:16980" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Data.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ia/volleyball/Data.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-820">
-              <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SearchMethods.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ia/volleyball/SearchMethods.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8166">
-              <caret line="475" column="7" lean-forward="true" selection-start-line="475" selection-start-column="7" selection-end-line="475" selection-end-column="7" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FilesManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ia/volleyball/FilesManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="56" column="0" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ia/volleyball/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-652">
-              <caret line="33" column="59" lean-forward="false" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -108,6 +48,14 @@
       <find>getPa</find>
       <find>printT</find>
       <find>getP</find>
+      <find>|</find>
+      <find>getPat</find>
+      <find>El camino de origen</find>
+      <find>Cerrados</find>
+      <find>printOpenClose</find>
+      <find>como hijo de EA</find>
+      <find>Para cada sucesor de EA</find>
+      <find>EA =</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -127,10 +75,10 @@
         <option value="$PROJECT_DIR$/src/ia/volleyball/TreeIndexFile.java" />
         <option value="$PROJECT_DIR$/register.txt" />
         <option value="$PROJECT_DIR$/src/ia/volleyball/Tree.java" />
-        <option value="$PROJECT_DIR$/src/ia/volleyball/Main.java" />
-        <option value="$PROJECT_DIR$/src/ia/volleyball/FilesManager.java" />
-        <option value="$PROJECT_DIR$/src/ia/volleyball/SearchMethods.java" />
         <option value="$PROJECT_DIR$/src/ia/volleyball/Register.java" />
+        <option value="$PROJECT_DIR$/src/ia/volleyball/FilesManager.java" />
+        <option value="$PROJECT_DIR$/src/ia/volleyball/Main.java" />
+        <option value="$PROJECT_DIR$/src/ia/volleyball/SearchMethods.java" />
       </list>
     </option>
   </component>
@@ -141,7 +89,7 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="26" />
     <option name="y" value="28" />
     <option name="width" value="1312" />
@@ -162,10 +110,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="Scratches" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -188,6 +134,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -278,8 +226,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2" y="17" width="1370" height="753" extended-state="7" />
-    <editor active="true" />
+    <frame x="-2" y="17" width="1370" height="753" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32836932" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
@@ -294,7 +241,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32854864" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16753536" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21146686" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24795234" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24944155" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -329,12 +276,12 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.515873" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.9601276" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18987341" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866043" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16090332" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32698414" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32854864" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16753536" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32669982" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32911393" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
@@ -344,7 +291,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="42" />
+      <option name="time" value="43" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -362,7 +309,14 @@
         <state relative-caret-position="9040">
           <caret line="452" column="6" lean-forward="false" selection-start-line="452" selection-start-column="6" selection-end-line="452" selection-end-column="6" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#410#411#0" expanded="true" />
+            <element signature="e#438#439#0" expanded="true" />
+            <element signature="method#BreadthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#DepthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#contains#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#calculateG#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#expandNodeA#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#grafosOHeuristic#0;class#SearchMethods#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -412,7 +366,14 @@
         <state relative-caret-position="3820">
           <caret line="191" column="74" lean-forward="false" selection-start-line="191" selection-start-column="74" selection-end-line="191" selection-end-column="74" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#410#411#0" expanded="true" />
+            <element signature="e#438#439#0" expanded="true" />
+            <element signature="method#BreadthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#DepthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#contains#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#calculateG#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#expandNodeA#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#grafosOHeuristic#0;class#SearchMethods#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -448,7 +409,14 @@
         <state relative-caret-position="2100">
           <caret line="105" column="0" lean-forward="false" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#410#411#0" expanded="true" />
+            <element signature="e#438#439#0" expanded="true" />
+            <element signature="method#BreadthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#DepthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#contains#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#calculateG#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#expandNodeA#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#grafosOHeuristic#0;class#SearchMethods#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -501,7 +469,14 @@
         <state relative-caret-position="1100">
           <caret line="55" column="29" lean-forward="true" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#410#411#0" expanded="true" />
+            <element signature="e#438#439#0" expanded="true" />
+            <element signature="method#BreadthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#DepthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#contains#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#calculateG#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#expandNodeA#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#grafosOHeuristic#0;class#SearchMethods#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -545,7 +520,14 @@
         <state relative-caret-position="1920">
           <caret line="98" column="25" lean-forward="true" selection-start-line="98" selection-start-column="25" selection-end-line="98" selection-end-column="25" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#410#411#0" expanded="true" />
+            <element signature="e#438#439#0" expanded="true" />
+            <element signature="method#BreadthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#DepthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#contains#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#calculateG#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#expandNodeA#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#grafosOHeuristic#0;class#SearchMethods#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -592,7 +574,14 @@
         <state relative-caret-position="820">
           <caret line="43" column="83" lean-forward="false" selection-start-line="43" selection-start-column="83" selection-end-line="43" selection-end-column="83" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#410#411#0" expanded="true" />
+            <element signature="e#438#439#0" expanded="true" />
+            <element signature="method#BreadthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#DepthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#contains#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#calculateG#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#expandNodeA#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#grafosOHeuristic#0;class#SearchMethods#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -689,17 +678,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ia/volleyball/Tree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="36" column="28" lean-forward="false" selection-start-line="36" selection-start-column="28" selection-end-line="36" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ia/volleyball/Node.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
           <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ia/volleyball/FilesManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-28">
+          <caret line="255" column="0" lean-forward="true" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ia/volleyball/Tree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="36" column="28" lean-forward="false" selection-start-line="36" selection-start-column="28" selection-end-line="36" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ia/volleyball/Register.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="316" column="34" lean-forward="false" selection-start-line="316" selection-start-column="16" selection-end-line="316" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1508898124356" expanded="true" signature="16973:16980" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -713,39 +722,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ia/volleyball/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-652">
-          <caret line="33" column="59" lean-forward="false" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
+        <state relative-caret-position="189">
+          <caret line="89" column="66" lean-forward="false" selection-start-line="89" selection-start-column="65" selection-end-line="89" selection-end-column="66" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ia/volleyball/FilesManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="56" column="0" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ia/volleyball/SearchMethods.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8166">
-          <caret line="475" column="7" lean-forward="true" selection-start-line="475" selection-start-column="7" selection-end-line="475" selection-end-column="7" />
+        <state relative-caret-position="933">
+          <caret line="499" column="0" lean-forward="true" selection-start-line="499" selection-start-column="0" selection-end-line="499" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ia/volleyball/Register.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="277" column="79" lean-forward="false" selection-start-line="277" selection-start-column="79" selection-end-line="277" selection-end-column="79" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1508898124356" expanded="true" signature="16973:16980" ph="{...}" />
+            <element signature="e#410#411#0" expanded="true" />
+            <element signature="e#438#439#0" expanded="true" />
+            <element signature="method#BreadthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#DepthFirst#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#contains#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#calculateG#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#expandNodeA#0;class#SearchMethods#0" expanded="false" />
+            <element signature="method#grafosOHeuristic#0;class#SearchMethods#0" expanded="false" />
           </folding>
         </state>
       </provider>

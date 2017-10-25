@@ -254,8 +254,6 @@ public class FilesManager {
         return false;
     }
 
-
-
     /**
      * From a key finds the name of an associated city
      * @param key
